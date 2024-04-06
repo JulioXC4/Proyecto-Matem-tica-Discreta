@@ -7,14 +7,17 @@ const InputTreeData = ({
 }: {
   onGenerateElements: (values: number) => void;
 }) => {
-  const [value, setValue] = useState<number>(0);
+    const [value, setValue] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(parseInt(event.target.value, 10));
+    setValue(event.target.value);
   };
 
   const handleGenerateElements = () => {
-    onGenerateElements(value);
+    const parsedValue = parseInt(value, 10);
+    if (!isNaN(parsedValue)) {
+      onGenerateElements(parsedValue);
+    }
   };
   return (
     <div className="bg-gray-300">

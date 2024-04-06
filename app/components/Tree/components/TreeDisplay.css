@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* Agrega posición relativa */
+    margin-bottom: 20px; /* Aumenta el espacio entre nodos */
   }
   
   .node-value {
@@ -16,26 +18,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
   }
   
   .tree-children {
     display: flex;
     justify-content: space-between;
     width: 100px;
+    position: absolute; /* Agrega posición absoluta */
+    left: 50%; /* Centra horizontalmente */
+    top: calc(100% + 20px); /* Posición debajo del nodo padre */
+    transform: translateX(-50%); /* Centra horizontalmente */
   }
   
   .tree-line {
-    width: 0;
-    height: 0;
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    margin-top: 10px;
+    position: absolute; /* Agrega posición absoluta */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform-origin: left bottom; /* Cambia el origen de la transformación */
   }
   
   .tree-child {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* Agrega posición relativa */
+    margin-bottom: 20px; /* Aumenta el espacio entre nodos */
   }
   

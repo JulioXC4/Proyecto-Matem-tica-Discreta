@@ -1,7 +1,14 @@
 export const createRandomElements = (n: number): number[] => {
     const elements: number[] = [];
-    for (let i = 0; i < n; i++) {
-      elements.push(Math.floor(Math.random() * 100));
+    const uniqueValues = new Set<number>();
+
+    while (elements.length < n) {
+        const randomValue = Math.floor(Math.random() * 100);
+        if (!uniqueValues.has(randomValue)) {
+            elements.push(randomValue);
+            uniqueValues.add(randomValue);
+        }
     }
+
     return elements;
-  };
+};

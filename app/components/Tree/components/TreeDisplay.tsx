@@ -36,16 +36,14 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
   };
 
   return (
-    <div className="tree-container">
-      <h2>Árbol</h2>
-      <h3>Nodos del árbol:</h3>
-      {rootNode ? renderAllNodes(rootNode) : <p>No hay nodos disponibles</p>}
+    <div>
+      <h1>Árbol</h1>
       {elements !== null && elements !== undefined ? (
         <div>
           <h3>Elementos del árbol:</h3>
-          <ul>
+          <ul className="flex">
             {elements.map((element, index) => (
-              <li key={index}>{element}</li>
+              <li key={index}>- {element} -</li>
             ))}
           </ul>
         </div>
@@ -54,6 +52,11 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
           <p>No hay elementos disponibles</p>
         </div>
       )}
+
+      <h3>Nodos del árbol:</h3>
+      <div className="tree-container">
+        {rootNode ? renderAllNodes(rootNode) : <p>No hay nodos disponibles</p>}
+      </div>
     </div>
   );
 };
