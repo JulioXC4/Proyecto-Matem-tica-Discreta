@@ -14,68 +14,33 @@ const Tree = () => {
   const generateElements = (n: number) => {
     const newElements = createRandomElements(n);
     setElements(newElements);
-    setRootNode(null); // Reiniciar el árbol antes de agregar nuevos nodos
+    setRootNode(null);
 
-    const newRootNode = new Node(newElements[0])
-    nodes.push(newRootNode); // Crear el nodo raíz
+    const newRootNode = new Node(newElements[0]);
+    nodes.push(newRootNode);
 
-    // Insertar los nodos restantes
-    let aux = 0
-    let cycle = 1
+    let aux = 0;
+    let cycle = 1;
     for (let i = 1; i < newElements.length; i++) {
-      if(i<=treeValue){
-      const subNode = new Node(newElements[i])
-      nodes.push(subNode)
-      newRootNode.addNode(subNode)
-      }else{
-        if(i > treeValue && aux <= treeValue*cycle){
-          const node = new Node(newElements[i])
-          nodes.push(node)
-          nodes[cycle].addNode(node)
-          aux = aux +1
-          if(aux === treeValue) {
-            aux = 1
-            cycle = cycle + 1
+      if (i <= treeValue) {
+        const subNode = new Node(newElements[i]);
+        nodes.push(subNode);
+        newRootNode.addNode(subNode);
+      } else {
+        if (aux <= treeValue * cycle) {
+          const node = new Node(newElements[i]);
+          nodes.push(node);
+          nodes[cycle].addNode(node);
+          aux = aux + 1;
+          if (aux === treeValue) {
+            aux = 0;
+            cycle = cycle + 1;
           }
         }
-       /*  for(let j = 1; j <= Math.floor(newElements?.length - treeValue + 1/ treeValue); j++){
-          if(i >  treeValue && i <= treeValue+ treeValue*j){
-            const node = new Node(newElements[i])
-            nodes.push(node)
-            nodes[j].addNode(node)
-          }else{
-            const node = new Node(newElements[i])
-            nodes.push(node)
-            nodes[treeValue].addNode(node)
-          }
-        } */
       }
-/*       const newNode = new Node(i)
-      newRootNode.addNode(newNode) */
     }
     setRootNode(newRootNode);
   };
-
-  /* const insertNodeRecursively = (currentNode: Node, newNode: Node) => {
-    if (!currentNode) {
-      // Si currentNode es null, significa que hemos alcanzado una hoja del árbol
-      // Por lo tanto, simplemente devolvemos el newNode para que se convierta en un nodo hoja
-      return newNode;
-    }
-
-    if (newNode.value < currentNode.value) {
-      // Si el valor del nuevo nodo es menor que el valor del nodo actual, lo insertamos en el subárbol izquierdo
-      //@ts-ignore
-      currentNode.left = insertNodeRecursively(currentNode.left, newNode);
-    } else {
-      // Si el valor del nuevo nodo es mayor o igual que el valor del nodo actual, lo insertamos en el subárbol derecho
-      //@ts-ignore
-
-      currentNode.right = insertNodeRecursively(currentNode.right, newNode);
-    }
-
-    return currentNode;
-  }; */
 
   return (
     <div className="flex flex-col justify-around items-center w-full h-full">
