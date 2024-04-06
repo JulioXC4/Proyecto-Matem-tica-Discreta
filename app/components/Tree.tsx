@@ -20,13 +20,25 @@ const Tree = () => {
     nodes.push(newRootNode); // Crear el nodo raíz
 
     // Insertar los nodos restantes
+    let aux = 0
+    let cycle = 1
     for (let i = 1; i < newElements.length; i++) {
       if(i<=treeValue){
       const subNode = new Node(newElements[i])
       nodes.push(subNode)
       newRootNode.addNode(subNode)
       }else{
-        for(let j = 1; j <= Math.floor(newElements?.length - treeValue + 1/ treeValue); j++){
+        if(i > treeValue && aux <= treeValue*cycle){
+          const node = new Node(newElements[i])
+          nodes.push(node)
+          nodes[cycle].addNode(node)
+          aux = aux +1
+          if(aux === treeValue) {
+            aux = 1
+            cycle = cycle + 1
+          }
+        }
+       /*  for(let j = 1; j <= Math.floor(newElements?.length - treeValue + 1/ treeValue); j++){
           if(i >  treeValue && i <= treeValue+ treeValue*j){
             const node = new Node(newElements[i])
             nodes.push(node)
@@ -36,7 +48,7 @@ const Tree = () => {
             nodes.push(node)
             nodes[treeValue].addNode(node)
           }
-        }
+        } */
       }
 /*       const newNode = new Node(i)
       newRootNode.addNode(newNode) */
