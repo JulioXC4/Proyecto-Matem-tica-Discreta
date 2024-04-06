@@ -1,13 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { Node } from "@/app/interfaces/node";
 
 const InputTreeData = ({
   onGenerateElements,
 }: {
   onGenerateElements: (values: number) => void;
 }) => {
-    const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);

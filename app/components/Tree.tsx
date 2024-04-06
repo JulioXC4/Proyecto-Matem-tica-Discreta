@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { InputTreeData, TreeDisplay, Table } from "./Tree/components";
 import { Node } from "../interfaces/node";
-import { convertToBinaryTree, createRandomElements,convert,generateNodeTable } from "../utils/functions";
+import {
+  createRandomElements,
+  convert,
+  generateNodeTable,
+} from "../utils/functions";
 
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([0]);
@@ -60,24 +64,26 @@ const Tree = () => {
   const convertToBinary = () => {
     //@ts-ignore
     const binaryRoot = convert(rootNode);
-    console.log("Nuevo arbol:", binaryRoot);
     setRootNode(binaryRoot);
   };
 
   const createTable = () => {
     //@ts-ignore
     const table = generateNodeTable(rootNode);
-    console.log("Tabla left data rigth:", table);
-    setTable(table)
+    setTable(table);
   };
 
   return (
     <div className="flex flex-col justify-around items-center w-full h-full">
-      <button type={"button"} onClick={convertToBinary}>Convertir a binario</button>
-      <button type={"button"} onClick={createTable}>Crear Tabla</button>
+      <button type={"button"} onClick={convertToBinary}>
+        Convertir a binario
+      </button>
+      <button type={"button"} onClick={createTable}>
+        Crear Tabla
+      </button>
       <InputTreeData onGenerateElements={generateElements} />
       <TreeDisplay rootNode={rootNode} elements={elements} />
-      <Table data={table}/>
+      <Table data={table} />
     </div>
   );
 };

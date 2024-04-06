@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { Node } from "@/app/interfaces/node";
-import "./TreeDisplay.css";
 import { instance } from "@viz-js/viz";
 
 interface TreeDisplayProps {
@@ -11,8 +10,6 @@ interface TreeDisplayProps {
 }
 
 const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
-  const firstTree = rootNode;
-  console.log("Root de nodos", rootNode);
   const graphRef = useRef<HTMLDivElement>(null);
   const [updated, setUpdated] = useState(false);
   useEffect(() => {
@@ -38,11 +35,12 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
 
   function generateGraph(rootNode: Node): string {
     let dot = "digraph {";
-    dot += "node [shape=box];";
+    dot += "node [shape=circle];";
 
     function traverse(node: Node) {
+      if (!node.children) return null;
+      //quitar if de arriba
       dot += `${node.value};`;
-      //@ts-ignore
       node.children.forEach((child: Node) => {
         dot += `${node.value} -> ${child.value};`;
         traverse(child);
@@ -57,7 +55,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
 
   function generateBinaryGraph(rootNode: Node): string {
     let dot = "digraph {";
-    dot += "node [shape=box];";
+    dot += "node [shape=circle];";
 
     function traverse(node: Node) {
       dot += `${node.value};`;
@@ -89,13 +87,13 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
         <div>
           <p>Elementos del árbol:</p>
           <ul className="flex">
-          {" { "}
+            {" { "}
             {elements.map((element, index) => (
               <li key={index}>
                 {index === elements.length - 1 ? element : element + ", "}
               </li>
             ))}
-          {" } "}
+            {" } "}
           </ul>
         </div>
       ) : (
