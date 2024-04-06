@@ -11,13 +11,15 @@ interface TreeDisplayProps {
 }
 
 const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
-  const firstTree = rootNode
+  const firstTree = rootNode;
   console.log("Root de nodos", rootNode);
   const graphRef = useRef<HTMLDivElement>(null);
-  const [updated, setUpdated] = useState(false)
+  const [updated, setUpdated] = useState(false);
   useEffect(() => {
     if (rootNode) {
-      const dot = updated ? generateBinaryGraph(rootNode) : generateGraph(rootNode);
+      const dot = updated
+        ? generateBinaryGraph(rootNode)
+        : generateGraph(rootNode);
 
       instance()
         .then((viz) => {
@@ -32,7 +34,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
           console.error("Error al instanciar viz.js:", error);
         });
     }
-  }, [rootNode,updated]);
+  }, [rootNode, updated]);
 
   function generateGraph(rootNode: Node): string {
     let dot = "digraph {";
@@ -56,41 +58,44 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
   function generateBinaryGraph(rootNode: Node): string {
     let dot = "digraph {";
     dot += "node [shape=box];";
-  
+
     function traverse(node: Node) {
       dot += `${node.value};`;
-  
+
       if (node.left) {
         dot += `${node.value} -> ${node.left.value};`;
         traverse(node.left);
       }
-  
+
       if (node.right) {
         dot += `${node.value} -> ${node.right.value};`;
         traverse(node.right);
       }
     }
-  
+
     traverse(rootNode);
     dot += "}";
-  
+
     return dot;
   }
 
   const updateRoot = () => {
-    setUpdated(!updated)
-  }
+    setUpdated(!updated);
+  };
   return (
     <div>
       <button onClick={updateRoot}>Actualizar grafico</button>
-      <h1>Árbol</h1>
       {elements !== null && elements !== undefined ? (
         <div>
-          <h3>Elementos del árbol:</h3>
+          <p>Elementos del árbol:</p>
           <ul className="flex">
+          {" { "}
             {elements.map((element, index) => (
-              <li key={index}>- {element} -</li>
+              <li key={index}>
+                {index === elements.length - 1 ? element : element + ", "}
+              </li>
             ))}
+          {" } "}
           </ul>
         </div>
       ) : (
@@ -102,7 +107,6 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
       <h3>Nodos del árbol:</h3>
       <div id="graph" ref={graphRef}></div>
       <div id="graph" ref={graphRef}></div>
-
     </div>
   );
 };

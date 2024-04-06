@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { InputTreeData, TreeDisplay } from "./Tree/components";
+import { InputTreeData, TreeDisplay, Table } from "./Tree/components";
 import { Node } from "../interfaces/node";
-import { convertToBinaryTree, createRandomElements,convert } from "../utils/functions";
+import { convertToBinaryTree, createRandomElements,convert,generateNodeTable } from "../utils/functions";
 
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([0]);
-  const [treeValue, setTreeValue] = useState<number>(3);
+  const [treeValue, setTreeValue] = useState<number>(4);
   const [rootNode, setRootNode] = useState<Node | null>(null);
+  const [table, setTable] = useState<any | null>(null);
 
   const nodes: Node[] = [];
 
@@ -63,11 +64,20 @@ const Tree = () => {
     setRootNode(binaryRoot);
   };
 
+  const createTable = () => {
+    //@ts-ignore
+    const table = generateNodeTable(rootNode);
+    console.log("Tabla left data rigth:", table);
+    setTable(table)
+  };
+
   return (
     <div className="flex flex-col justify-around items-center w-full h-full">
-      <button onClick={convertToBinary}>Convertir a binario</button>
+      <button type={"button"} onClick={convertToBinary}>Convertir a binario</button>
+      <button type={"button"} onClick={createTable}>Crear Tabla</button>
       <InputTreeData onGenerateElements={generateElements} />
       <TreeDisplay rootNode={rootNode} elements={elements} />
+      <Table data={table}/>
     </div>
   );
 };

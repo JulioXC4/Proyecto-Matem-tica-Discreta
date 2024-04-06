@@ -59,32 +59,55 @@ export function convertToBinaryTree(rootNode: Node | null): Node | null {
 
 }
 
-export function convert(root: Node): Node | null {
-    if (!root) {
+export function convert(node: Node): Node | null {
+    if (!node) {
         return null;
       }
     
-      if (root.children?.length === 0) {
-        return root;
+      if (node.children?.length === 0) {
+        return node;
       }
     
-      if (root.children?.length === 1) {
-        root.left = convert(root.children[0]);
-        return root;
+      if (node.children?.length === 1) {
+        node.left = convert(node.children[0]);
+        return node;
       }
     
-      root.left = convert(root.children[0]);
-      root.right = convert(root.children[1]);
+      node.left = convert(node.children[0]);
+      node.right = convert(node.children[1]);
     
-      let currentRight = root.right;
+      let currentRight = node.right;
       while (currentRight?.right !== null) {
         currentRight = currentRight.right;
       }
     
-      for (let i = 2; i < root.children.length; i++) {
-        currentRight.right = convert(root.children[i]);
+      for (let i = 2; i < node.children.length; i++) {
+        currentRight.right = convert(node.children[i]);
         currentRight = currentRight.right;
       }
     
-      return root;
+      return node;
+  }
+
+  export function generateNodeTable(root: Node | null): NodeTable[] {
+    const nodeTable: NodeTable[] = [];
+  
+    function traverse(node: Node | null) {
+      if (!node) return;
+  
+      const tableEntry: NodeTable = {
+        left: node.left ? node.left.value : null,
+        data: node.value,
+        right: node.right ? node.right.value : null,
+      };
+  
+      nodeTable.push(tableEntry);
+  
+      traverse(node.left);
+      traverse(node.right);
+    }
+  
+    traverse(root);
+  
+    return nodeTable;
   }
