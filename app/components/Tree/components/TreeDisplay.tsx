@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Node } from "@/app/interfaces/node";
 import "./TreeDisplay.css";
 import { instance } from "@viz-js/viz";
@@ -11,9 +11,10 @@ interface TreeDisplayProps {
 }
 
 const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
+  const firstTree = rootNode
   console.log("Root de nodos", rootNode);
   const graphRef = useRef<HTMLDivElement>(null);
-
+  const [updated, setUpdated] = useState(false)
   useEffect(() => {
     if (rootNode) {
       const dot = generateGraph(rootNode);
@@ -31,7 +32,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
           console.error("Error al instanciar viz.js:", error);
         });
     }
-  }, [rootNode]);
+  }, [rootNode,updated]);
 
   function generateGraph(rootNode: Node): string {
     let dot = "digraph {";
@@ -51,9 +52,12 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
 
     return dot;
   }
-
+  const updateRoot = () => {
+    setUpdated(!updated)
+  }
   return (
     <div>
+      <button onClick={updateRoot}>Actualizar grafico</button>
       <h1>Árbol</h1>
       {elements !== null && elements !== undefined ? (
         <div>
@@ -72,6 +76,8 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
 
       <h3>Nodos del árbol:</h3>
       <div id="graph" ref={graphRef}></div>
+      <div id="graph" ref={graphRef}></div>
+
     </div>
   );
 };
