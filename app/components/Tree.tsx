@@ -27,6 +27,21 @@ const Tree = () => {
         nodes.push(subNode);
         newRootNode.addNode(subNode);
       } else {
+        if (
+          i >=
+          newElements.length -
+            ((newElements.length - 1 + treeValue) % treeValue)
+        ) {
+          console.log("piso");
+          const node = new Node(newElements[i]);
+          nodes.push(node);
+
+          const rootChildren = nodes[1].getChildren();
+          if (rootChildren !== null) {
+            rootChildren[0].addNode(node);
+          }
+          continue;
+        }
         if (aux <= treeValue * cycle) {
           const node = new Node(newElements[i]);
           nodes.push(node);
