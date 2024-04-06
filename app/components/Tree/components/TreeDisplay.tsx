@@ -18,19 +18,8 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
     }
 
     return (
-      <div className="tree-node">
-        <div className="node-value">{node.value}</div>
-        <div className="tree-children">
-          <div className="tree-line"></div>
-          <div className="tree-child">
-            {renderAllNodes(node.left)}
-            <div className="tree-line-vertical"></div>
-          </div>
-          <div className="tree-child">
-            {renderAllNodes(node.right)}
-            <div className="tree-line-vertical"></div>
-          </div>
-        </div>
+      <div>
+       <p>hola</p>
       </div>
     );
   };
