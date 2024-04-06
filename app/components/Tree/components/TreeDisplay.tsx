@@ -17,7 +17,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
   const [updated, setUpdated] = useState(false)
   useEffect(() => {
     if (rootNode) {
-      const dot = generateGraph(rootNode);
+      const dot = updated ? generateBinaryGraph(rootNode) : generateGraph(rootNode);
 
       instance()
         .then((viz) => {
@@ -52,6 +52,31 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
 
     return dot;
   }
+
+  function generateBinaryGraph(rootNode: Node): string {
+    let dot = "digraph {";
+    dot += "node [shape=box];";
+  
+    function traverse(node: Node) {
+      dot += `${node.value};`;
+  
+      if (node.left) {
+        dot += `${node.value} -> ${node.left.value};`;
+        traverse(node.left);
+      }
+  
+      if (node.right) {
+        dot += `${node.value} -> ${node.right.value};`;
+        traverse(node.right);
+      }
+    }
+  
+    traverse(rootNode);
+    dot += "}";
+  
+    return dot;
+  }
+
   const updateRoot = () => {
     setUpdated(!updated)
   }

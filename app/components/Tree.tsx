@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { InputTreeData, TreeDisplay } from "./Tree/components";
 import { Node } from "../interfaces/node";
-import { convertToBinaryTree, createRandomElements } from "../utils/functions";
+import { convertToBinaryTree, createRandomElements,convert } from "../utils/functions";
 
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([0]);
@@ -57,7 +57,8 @@ const Tree = () => {
   };
 
   const convertToBinary = () => {
-    const binaryRoot = convertToBinaryTree(rootNode);
+    //@ts-ignore
+    const binaryRoot = convert(rootNode);
     console.log("Nuevo arbol:", binaryRoot);
     setRootNode(binaryRoot);
   };
