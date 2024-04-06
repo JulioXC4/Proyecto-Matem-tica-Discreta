@@ -1,0 +1,41 @@
+.tree-container {
+    font-family: Arial, sans-serif;
+  }
+  
+  .tree-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .node-value {
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .tree-children {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+  }
+  
+  .tree-line {
+    width: 0;
+    height: 0;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    margin-top: 10px;
+  }
+  
+  .tree-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
