@@ -1,47 +1,22 @@
+.node {
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Espacio entre nodos */
+}
+
+.children-container {
+  display: flex;
+  flex-direction: column; /* Alineamos los hijos verticalmente */
+  align-items: center;
+  position: relative; /* Importante para que la posición absoluta funcione */
+}
+
 .tree-container {
-    font-family: Arial, sans-serif;
-  }
-  
-  .tree-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative; /* Agrega posición relativa */
-    margin-bottom: 20px; /* Aumenta el espacio entre nodos */
-  }
-  
-  .node-value {
-    width: 30px;
-    height: 30px;
-    background-color: #ccc;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .tree-children {
-    display: flex;
-    justify-content: space-between;
-    width: 100px;
-    position: absolute; /* Agrega posición absoluta */
-    left: 50%; /* Centra horizontalmente */
-    top: calc(100% + 20px); /* Posición debajo del nodo padre */
-    transform: translateX(-50%); /* Centra horizontalmente */
-  }
-  
-  .tree-line {
-    position: absolute; /* Agrega posición absoluta */
-    top: 50%; /* Centra verticalmente */
-    left: 50%; /* Centra horizontalmente */
-    transform-origin: left bottom; /* Cambia el origen de la transformación */
-  }
-  
-  .tree-child {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative; /* Agrega posición relativa */
-    margin-bottom: 20px; /* Aumenta el espacio entre nodos */
-  }
-  
+  display: flex;
+  justify-content: center;
+}

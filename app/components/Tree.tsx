@@ -6,7 +6,7 @@ import { createRandomElements } from "../utils/functions";
 
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([0]);
-  const [treeValue, setTreeValue] = useState<number>(3);
+  const [treeValue, setTreeValue] = useState<number>(4);
   const [rootNode, setRootNode] = useState<Node | null>(null);
 
   const nodes: Node[] = [];
@@ -28,11 +28,11 @@ const Tree = () => {
         newRootNode.addNode(subNode);
       } else {
         if (
+          treeValue === 3 &&
           i >=
-          newElements.length -
-            ((newElements.length - 1 + treeValue) % treeValue)
+            newElements.length - ((newElements.length + treeValue) % treeValue)
         ) {
-          console.log("piso");
+
           const node = new Node(newElements[i]);
           nodes.push(node);
 
