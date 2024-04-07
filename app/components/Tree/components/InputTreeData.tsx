@@ -15,7 +15,7 @@ const InputTreeData = ({
   const [value, setValue] = useState<string>("");
   const [showForm, setShowForm] = useState(false);
   const [showInputForm, setShowInputForm] = useState(false);
-  const [selectedButton, setSelectedButton] = useState<number | null>(null);
+  const [selectedButton, setSelectedButton] = useState<number | null>(1);
   const [numInputs, setNumInputs] = useState<number>(10);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +43,10 @@ const InputTreeData = ({
     setShowInputForm(!showInputForm);
     onChangeNumberInputs(numInputs);
     openModal();
+  };
+
+  const handleEditInputs = () => {
+    setShowInputForm(!showInputForm);
   };
 
   return (
@@ -105,22 +109,12 @@ const InputTreeData = ({
             )}
             {showInputForm ? (
               <div>
-                {/* <div>
-                  {[...Array(numInputs)].map((_, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      className="bg-blue-300 m-2 px-3 py-1 rounded-lg"
-                      placeholder={`Input ${index + 1}`}
-                    />
-                  ))}
-                </div> */}
                 <button
-                  className="bg-green-400 px-3 py-1 rounded-lg"
+                  className="bg-yellow-500 px-3 py-1 rounded-lg text-white"
                   type="button"
-                  onClick={handleCreateInputs}
+                  onClick={handleEditInputs}
                 >
-                  Volver
+                  Modificar Inputs
                 </button>
               </div>
             ) : (

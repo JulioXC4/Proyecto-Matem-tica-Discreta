@@ -10,7 +10,7 @@ import {
 
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([]);
-  const [treeValue, setTreeValue] = useState<number>(0);
+  const [treeValue, setTreeValue] = useState<number>(2);
   const [rootNode, setRootNode] = useState<Node | null>(null);
   const [table, setTable] = useState<any | null>(null);
   const [showModal, setShowModal] = useState(false);

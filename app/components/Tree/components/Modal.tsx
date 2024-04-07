@@ -1,5 +1,7 @@
-import React from "react";
+"use client";
 
+import React from "react";
+import { createRandomElements } from "@/app/utils/functions";
 const Modal = ({
   isOpen,
   onClose,
@@ -12,7 +14,15 @@ const Modal = ({
   const handleClose = () => {
     onClose();
   };
+  const fillInputsRandomly = () => {
+    const randomValues = createRandomElements(numInputs || 0);
+    const inputElements =
+      document.querySelectorAll<HTMLInputElement>(".random-input");
 
+    inputElements.forEach((input, index) => {
+      input.value = randomValues[index].toString();
+    });
+  };
   return (
     <>
       {isOpen && (
@@ -24,12 +34,18 @@ const Modal = ({
                 <input
                   key={index}
                   type="text"
-                  className="bg-gray-100 m-2 px-3 py-1 rounded-lg"
+                  className="bg-gray-100 m-2 px-3 py-1 rounded-lg random-input"
                   placeholder={`Input ${index + 1}`}
                 />
               ))}
             </div>
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-between mt-4">
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                onClick={fillInputsRandomly}
+              >
+                Llenar Aleatoriamente
+              </button>
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded-lg"
                 onClick={handleClose}
