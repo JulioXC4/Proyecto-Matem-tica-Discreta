@@ -6,10 +6,9 @@ import { instance } from "@viz-js/viz";
 
 interface TreeDisplayProps {
   rootNode: Node | null;
-  elements: number[] | null;
 }
 
-const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
+const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode }) => {
   const graphRef = useRef<HTMLDivElement>(null);
   const [updated, setUpdated] = useState(false);
   useEffect(() => {
@@ -81,28 +80,14 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
     setUpdated(!updated);
   };
   return (
-    <div className="flex flex-col justify-center items-center bg-green-300 w-full h-full">
-      <button onClick={updateRoot}>Actualizar grafico</button>
-      {elements !== null && elements !== undefined ? (
-        <div>
-          <p>Elementos del árbol:</p>
-          <ul className="flex">
-            {" { "}
-            {elements.map((element, index) => (
-              <li key={index}>
-                {index === elements.length - 1 ? element : element + ", "}
-              </li>
-            ))}
-            {" } "}
-          </ul>
-        </div>
-      ) : (
-        <div>
-          <p>No hay elementos disponibles</p>
-        </div>
-      )}
-
-      <h3>Nodos del árbol:</h3>
+    <div className="relative flex flex-col justify-center items-center bg-green-300 w-full h-full">
+      <button
+        className="absolute top-0 left-0 m-2 bg-red-500 text-white font-bold py-2 px-4 rounded"
+        onClick={updateRoot}
+      >
+        Actualizar grafico
+      </button>
+      <p>Digrafo</p>
       <div id="graph" ref={graphRef}></div>
     </div>
   );
