@@ -10,7 +10,7 @@ import {
 
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([0]);
-  const [treeValue, setTreeValue] = useState<number>(4);
+  const [treeValue, setTreeValue] = useState<number>(0);
   const [rootNode, setRootNode] = useState<Node | null>(null);
   const [table, setTable] = useState<any | null>(null);
 
@@ -73,17 +73,29 @@ const Tree = () => {
     setTable(table);
   };
 
+  const onSelectTreeValue = (n:number) => {
+    setTreeValue(n)
+  }
+
   return (
     <div className="flex flex-col justify-around items-center w-full h-full">
-      <button type={"button"} onClick={convertToBinary}>
-        Convertir a binario
-      </button>
-      <button type={"button"} onClick={createTable}>
-        Crear Tabla
-      </button>
-      <InputTreeData onGenerateElements={generateElements} />
-      <TreeDisplay rootNode={rootNode} elements={elements} />
-      <Table data={table} />
+      <div className="flex w-full h-full">
+        <div className="flex flex-col w-1/2">
+          <InputTreeData onSelectTreeValue={onSelectTreeValue} onGenerateElements={generateElements} />
+          <div>
+            <button type={"button"} onClick={convertToBinary}>
+              Convertir a binario
+            </button>
+            <button type={"button"} onClick={createTable}>
+              Crear Tabla
+            </button>
+          </div>
+          <Table data={table} />
+        </div>
+        <div className="w-1/2">
+          <TreeDisplay rootNode={rootNode} elements={elements} />
+        </div>
+      </div>
     </div>
   );
 };

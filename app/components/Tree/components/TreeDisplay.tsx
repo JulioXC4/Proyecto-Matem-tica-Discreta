@@ -81,7 +81,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
     setUpdated(!updated);
   };
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center bg-green-300 w-full h-full">
       <button onClick={updateRoot}>Actualizar grafico</button>
       {elements !== null && elements !== undefined ? (
         <div>
@@ -103,7 +103,6 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode, elements }) => {
       )}
 
       <h3>Nodos del árbol:</h3>
-      <div id="graph" ref={graphRef}></div>
       <div id="graph" ref={graphRef}></div>
     </div>
   );
