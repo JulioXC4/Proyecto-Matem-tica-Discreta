@@ -1,5 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { TbBinaryTree } from "react-icons/tb";
+import { FaCheck } from "react-icons/fa";
+import { MdOutlineCancel } from "react-icons/md";
 
 const InputTreeData = ({
   openModal,
@@ -36,6 +39,10 @@ const InputTreeData = ({
     openModal();
   };
 
+  const handleCancelInputs = () => {
+    setShowInputForm(!showInputForm);
+  };
+
   const handleEditInputs = () => {
     setShowInputForm(!showInputForm);
   };
@@ -45,7 +52,7 @@ const InputTreeData = ({
       {showForm ? (
         <div className="flex flex-col justify-around items-center w-full h-full">
           <div className="flex flex-col justify-center items-center w-full">
-            <p className="m-2">Que tipo de arbol quieres crear?</p>
+            <p className="m-2 text-lg text-gray-700">Seleccione el tipo de árbol a crear</p>
             <div className="m-2">
               <button
                 className={`bg-${
@@ -78,22 +85,33 @@ const InputTreeData = ({
           </div>
           <form>
             {!showInputForm ? (
-              <div>
-                <p>Cuantos inputs quieres?</p>
-                <input
-                  key={"generate-elements-input"}
-                  type="number"
-                  className="bg-blue-300"
-                  value={numInputs}
-                  onChange={handleNumberInputChange}
-                />
-                <button
-                  className="bg-green-400 px-3 py-1 rounded-lg"
-                  type="button"
-                  onClick={handleCreateInputs}
-                >
-                  Crear Inputs
-                </button>
+              <div className="flex flex-col justify-center items-center">
+                <p className="mb-2 text-lg text-gray-700">Indique la cantidad de inputs deseada</p>
+                <div className="flex">
+                  <input
+                    key="generate-elements-input"
+                    type="number"
+                    className="border border-gray-400 rounded-lg px-3 py-1 mb-2 text-center"
+                    value={numInputs}
+                    min={10}
+                    max={15}
+                    onChange={handleNumberInputChange}
+                  />
+                  <button
+                    className="flex justify-center items-center bg-green-400 text-white w-8 h-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 mx-2"
+                    type="button"
+                    onClick={handleCreateInputs}
+                  >
+                    <FaCheck className="w-4 h-4 text-white" />
+                  </button>
+                  <button
+                    className="flex justify-center items-center bg-red-400 text-white w-8 h-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 mx-2"
+                    type="button"
+                    onClick={handleCancelInputs}
+                  >
+                    <MdOutlineCancel className="w-6 h-6 text-white" />
+                  </button>
+                </div>
               </div>
             ) : (
               <div></div>
@@ -111,28 +129,15 @@ const InputTreeData = ({
             ) : (
               <div></div>
             )}
-            {/*  <input
-              key={"generate-elements-input"}
-              type="number"
-              className="bg-blue-300"
-              value={value}
-              onChange={handleChange}
-            />
-            <button
-              className="bg-green-400 px-3 py-1 rounded-lg"
-              type="button"
-              onClick={handleGenerateElements}
-            >
-              Generate Elements
-            </button> */}
           </form>
         </div>
       ) : (
         <div>
           <button
-            className="bg-green-400 px-3 py-1 rounded-2xl text-white text-center"
+            className="bg-green-400 w-36 h-36 rounded-lg text-white text-center flex flex-col justify-evenly items-center shadow-md transform transition-transform hover:scale-105"
             onClick={() => setShowForm(!showForm)}
           >
+            <TbBinaryTree className="mt-2 w-12 h-12" />
             Crear arbol
           </button>
         </div>

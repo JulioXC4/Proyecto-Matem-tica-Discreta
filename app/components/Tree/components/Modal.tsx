@@ -14,7 +14,7 @@ const Modal = ({
   onGenerateTree: (elements: number[]) => void;
 }) => {
   const [inputValues, setInputValues] = useState<number[]>(
-    Array(numInputs || 0).fill(0)
+    Array.from({ length: numInputs || 0 }, () => 0)
   );
 
   const handleInputChange = (

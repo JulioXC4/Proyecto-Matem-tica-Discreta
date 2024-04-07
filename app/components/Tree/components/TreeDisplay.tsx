@@ -83,14 +83,13 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode }) => {
     setUpdated(!updated);
   };
   return (
-    <div className="relative flex flex-col justify-center items-center bg-green-300 w-full h-full">
+    <div className="relative flex flex-col justify-center items-center w-full h-full">
       <button
         className="absolute top-0 left-0 m-2 bg-red-500 text-white font-bold py-2 px-4 rounded"
         onClick={updateRoot}
       >
         Actualizar grafico
       </button>
-      <p>Digrafo</p>
       <div id="graph" ref={graphRef}></div>
     </div>
   );

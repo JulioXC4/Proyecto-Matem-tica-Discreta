@@ -11,19 +11,19 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = ({ data }) => {
   return (
-    <div className="flex justify-center items-center bg-gray-400 w-full h-full overflow-y-auto">
+    <div className="flex justify-center items-center bg-gray-200 w-full h-full overflow-y-auto">
       <div className="overflow-y-auto h-full">
         {data && data.length > 0 ? (
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="bg-red-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Left
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="bg-blue-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Data
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="bg-yellow-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Right
                 </th>
               </tr>

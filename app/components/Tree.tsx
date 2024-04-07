@@ -77,30 +77,8 @@ const Tree = () => {
     <div className="flex flex-col justify-around items-center w-full h-full">
       <div className="flex w-full h-full">
         <div className="flex flex-col w-1/2">
-          <div className="flex-col justify-around items-center w-full bg-gray-200 p-2">
-            <div className="flex justify-center items-center w-full h-12">
-              {elements.length ? (
-                <div>
-                  <p>Elementos del árbol:</p>
-                  <ul className="flex">
-                    {" { "}
-                    {elements.map((element, index) => (
-                      <li key={index}>
-                        {index === elements.length - 1
-                          ? element
-                          : element + ", "}
-                      </li>
-                    ))}
-                    {" } "}
-                  </ul>
-                </div>
-              ) : (
-                <div>
-                  <p>No hay elementos disponibles</p>
-                </div>
-              )}
-            </div>
-            <div className="flex justify-around items-center w-full bg-gray-200 m-2">
+          <div className="flex-col justify-around items-center w-full bg-red-200 p-2">
+            <div className="flex justify-around items-center w-full m-2">
               <button
                 className={`text-white py-2 px-4 rounded ${
                   !rootNode
@@ -125,6 +103,28 @@ const Tree = () => {
               >
                 Crear Tabla
               </button>
+            </div>
+            <div className="flex justify-center items-center w-full h-12">
+              {elements.length ? (
+                <div>
+                  <p>Elementos del árbol:</p>
+                  <ul className="flex">
+                    {" { "}
+                    {elements.map((element, index) => (
+                      <li key={index}>
+                        {index === elements.length - 1
+                          ? element
+                          : element + ", "}
+                      </li>
+                    ))}
+                    {" } "}
+                  </ul>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-lg text-gray-700">No hay elementos disponibles</p>
+                </div>
+              )}
             </div>
           </div>
           <InputTreeData
