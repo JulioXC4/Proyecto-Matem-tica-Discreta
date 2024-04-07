@@ -3,11 +3,9 @@ import React, { useState } from "react";
 
 const InputTreeData = ({
   openModal,
-  onGenerateElements,
   onChangeNumberInputs,
   onSelectTreeValue,
 }: {
-  onGenerateElements: (values: number) => void;
   onSelectTreeValue: (values: number) => void;
   onChangeNumberInputs: (values: number) => void;
   openModal: () => void;
@@ -26,13 +24,6 @@ const InputTreeData = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setNumInputs(Number(event.target.value));
-  };
-
-  const handleGenerateElements = () => {
-    const parsedValue = parseInt(value, 10);
-    if (!isNaN(parsedValue)) {
-      onGenerateElements(parsedValue);
-    }
   };
 
   const handleButtonClick = (value: number, indexButton: number) => {

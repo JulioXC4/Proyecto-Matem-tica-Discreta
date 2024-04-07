@@ -23,6 +23,9 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode }) => {
 
           if (graphRef.current) {
             graphRef.current.innerHTML = "";
+            svg.classList.add("instance-svg");
+            svg.style.width = "400px";
+            svg.style.height = "400px";
             graphRef.current.appendChild(svg);
           }
         })

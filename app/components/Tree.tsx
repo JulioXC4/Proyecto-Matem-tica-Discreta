@@ -25,24 +25,23 @@ const Tree = () => {
     setShowModal(false);
   };
 
-  const generateElements = (n: number) => {
-    const newElements = createRandomElements(n);
-    setElements(newElements);
+  const generateElements = (modalElements: number[]) => {
+    setElements(modalElements);
     setRootNode(null);
 
-    const newRootNode = new Node(newElements[0]);
+    const newRootNode = new Node(modalElements[0]);
     nodes.push(newRootNode);
 
     let aux = 0;
     let cycle = 1;
-    for (let i = 1; i < newElements.length; i++) {
+    for (let i = 1; i < modalElements.length; i++) {
       if (i <= treeValue) {
-        const subNode = new Node(newElements[i]);
+        const subNode = new Node(modalElements[i]);
         nodes.push(subNode);
         newRootNode.addNode(subNode);
       } else {
         if (aux <= treeValue * cycle) {
-          const node = new Node(newElements[i]);
+          const node = new Node(modalElements[i]);
           nodes.push(node);
           nodes[cycle].addNode(node);
           aux = aux + 1;
@@ -132,7 +131,6 @@ const Tree = () => {
             openModal={openModal}
             onChangeNumberInputs={onChangeNumber}
             onSelectTreeValue={onSelectTreeValue}
-            onGenerateElements={generateElements}
           />
           <Table data={table} />
         </div>
@@ -140,7 +138,12 @@ const Tree = () => {
           <TreeDisplay rootNode={rootNode} />
         </div>
       </div>
-      <Modal isOpen={showModal} numInputs={numInputs} onClose={closeModal} />
+      <Modal
+        isOpen={showModal}
+        numInputs={numInputs}
+        onClose={closeModal}
+        onGenerateTree={generateElements}
+      />
     </div>
   );
 };
