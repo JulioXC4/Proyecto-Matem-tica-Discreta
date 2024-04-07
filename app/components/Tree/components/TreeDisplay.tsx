@@ -34,7 +34,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode }) => {
 
   function generateGraph(rootNode: Node): string {
     let dot = "digraph {";
-    dot += "node [shape=circle];";
+    dot += "node [style=filled, shape=circle];";
 
     function traverse(node: Node) {
       if (!node.children) return null;
@@ -54,7 +54,7 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode }) => {
 
   function generateBinaryGraph(rootNode: Node): string {
     let dot = "digraph {";
-    dot += "node [shape=circle];";
+    dot += "node [style=filled, shape=circle];";
 
     function traverse(node: Node) {
       dot += `${node.value};`;

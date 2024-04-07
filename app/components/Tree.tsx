@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { InputTreeData, TreeDisplay, Table } from "./Tree/components";
+import { InputTreeData, TreeDisplay, Table, Modal } from "./Tree/components";
 import { Node } from "../interfaces/node";
 import {
   createRandomElements,
@@ -13,8 +13,17 @@ const Tree = () => {
   const [treeValue, setTreeValue] = useState<number>(0);
   const [rootNode, setRootNode] = useState<Node | null>(null);
   const [table, setTable] = useState<any | null>(null);
-
+  const [showModal, setShowModal] = useState(false);
+  const [numInputs, setNumInputs] = useState(10);
   const nodes: Node[] = [];
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const generateElements = (n: number) => {
     const newElements = createRandomElements(n);
@@ -62,7 +71,9 @@ const Tree = () => {
   const onSelectTreeValue = (n: number) => {
     setTreeValue(n);
   };
-
+  const onChangeNumber = (n: number) => {
+    setNumInputs(n);
+  };
   return (
     <div className="flex flex-col justify-around items-center w-full h-full">
       <div className="flex w-full h-full">
@@ -118,6 +129,8 @@ const Tree = () => {
             </div>
           </div>
           <InputTreeData
+            openModal={openModal}
+            onChangeNumberInputs={onChangeNumber}
             onSelectTreeValue={onSelectTreeValue}
             onGenerateElements={generateElements}
           />
@@ -127,6 +140,7 @@ const Tree = () => {
           <TreeDisplay rootNode={rootNode} />
         </div>
       </div>
+      <Modal isOpen={showModal} numInputs={numInputs} onClose={closeModal} />
     </div>
   );
 };

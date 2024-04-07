@@ -2,17 +2,30 @@
 import React, { useState } from "react";
 
 const InputTreeData = ({
+  openModal,
   onGenerateElements,
+  onChangeNumberInputs,
   onSelectTreeValue,
 }: {
   onGenerateElements: (values: number) => void;
   onSelectTreeValue: (values: number) => void;
+  onChangeNumberInputs: (values: number) => void;
+  openModal: () => void;
 }) => {
   const [value, setValue] = useState<string>("");
   const [showForm, setShowForm] = useState(false);
+  const [showInputForm, setShowInputForm] = useState(false);
   const [selectedButton, setSelectedButton] = useState<number | null>(null);
+  const [numInputs, setNumInputs] = useState<number>(10);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
+  };
+
+  const handleNumberInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNumInputs(Number(event.target.value));
   };
 
   const handleGenerateElements = () => {
@@ -25,6 +38,11 @@ const InputTreeData = ({
   const handleButtonClick = (value: number, indexButton: number) => {
     setSelectedButton(indexButton);
     onSelectTreeValue(value);
+  };
+  const handleCreateInputs = () => {
+    setShowInputForm(!showInputForm);
+    onChangeNumberInputs(numInputs);
+    openModal();
   };
 
   return (
@@ -64,7 +82,51 @@ const InputTreeData = ({
             </div>
           </div>
           <form>
-            <input
+            {!showInputForm ? (
+              <div>
+                <p>Cuantos inputs quieres?</p>
+                <input
+                  key={"generate-elements-input"}
+                  type="number"
+                  className="bg-blue-300"
+                  value={numInputs}
+                  onChange={handleNumberInputChange}
+                />
+                <button
+                  className="bg-green-400 px-3 py-1 rounded-lg"
+                  type="button"
+                  onClick={handleCreateInputs}
+                >
+                  Crear Inputs
+                </button>
+              </div>
+            ) : (
+              <div></div>
+            )}
+            {showInputForm ? (
+              <div>
+                {/* <div>
+                  {[...Array(numInputs)].map((_, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      className="bg-blue-300 m-2 px-3 py-1 rounded-lg"
+                      placeholder={`Input ${index + 1}`}
+                    />
+                  ))}
+                </div> */}
+                <button
+                  className="bg-green-400 px-3 py-1 rounded-lg"
+                  type="button"
+                  onClick={handleCreateInputs}
+                >
+                  Volver
+                </button>
+              </div>
+            ) : (
+              <div></div>
+            )}
+            {/*  <input
               key={"generate-elements-input"}
               type="number"
               className="bg-blue-300"
@@ -77,7 +139,7 @@ const InputTreeData = ({
               onClick={handleGenerateElements}
             >
               Generate Elements
-            </button>
+            </button> */}
           </form>
         </div>
       ) : (
