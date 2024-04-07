@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import { InputTreeData, TreeDisplay, Table, Modal } from "./Tree/components";
 import { Node } from "../interfaces/node";
-import {
-  createRandomElements,
-  convert,
-  generateNodeTable,
-} from "../utils/functions";
+import { toast, ToastContainer } from "react-toastify";
 
+import { convert, generateNodeTable } from "../utils/functions";
+
+import "react-toastify/dist/ReactToastify.css";
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([]);
   const [treeValue, setTreeValue] = useState<number>(2);
@@ -58,12 +57,15 @@ const Tree = () => {
   const convertToBinary = () => {
     //@ts-ignore
     const binaryRoot = convert(rootNode);
+    toast.success("Árbol convertido exitosamente a binario");
+    toast.warning("El digrafo ha sido actualizado correctamente");
     setRootNode(binaryRoot);
   };
 
   const createTable = () => {
     //@ts-ignore
     const table = generateNodeTable(rootNode);
+    toast.success("Tabla Left Data Right creada exitosamente.");
     setTable(table);
   };
 
@@ -75,9 +77,48 @@ const Tree = () => {
   };
   return (
     <div className="flex flex-col justify-around items-center w-full h-full">
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        limit={1}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="colored"
+      />
       <div className="flex w-full h-full">
         <div className="flex flex-col w-1/2">
           <div className="flex-col justify-around items-center w-full bg-red-200 p-2">
+            <div className="flex justify-center items-center w-full h-12">
+              {elements.length ? (
+                <div className="flex">
+                  <p className="text-xl font-medium text-gray-700">
+                    Elementos del árbol:{" "}
+                  </p>
+                  <ul className="flex mx-2 text-gray-500">
+                    {" { "}
+                    {elements.map((element, index) => (
+                      <li className=" text-xl" key={index}>
+                        {index === elements.length - 1
+                          ? element
+                          : element + ", "}
+                      </li>
+                    ))}
+                    {" } "}
+                  </ul>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center border-b border-gray-400 w-5/6 p-2">
+                  <p className="text-lg text-gray-700">
+                    No hay elementos disponibles
+                  </p>
+                </div>
+              )}
+            </div>
             <div className="flex justify-around items-center w-full m-2">
               <button
                 className={`text-white py-2 px-4 rounded ${
@@ -101,30 +142,8 @@ const Tree = () => {
                 onClick={createTable}
                 disabled={!rootNode}
               >
-                Crear Tabla
+                Crear Tabla LDR
               </button>
-            </div>
-            <div className="flex justify-center items-center w-full h-12">
-              {elements.length ? (
-                <div>
-                  <p>Elementos del árbol:</p>
-                  <ul className="flex">
-                    {" { "}
-                    {elements.map((element, index) => (
-                      <li key={index}>
-                        {index === elements.length - 1
-                          ? element
-                          : element + ", "}
-                      </li>
-                    ))}
-                    {" } "}
-                  </ul>
-                </div>
-              ) : (
-                <div>
-                  <p className="text-lg text-gray-700">No hay elementos disponibles</p>
-                </div>
-              )}
             </div>
           </div>
           <InputTreeData
