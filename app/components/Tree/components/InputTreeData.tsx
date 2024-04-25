@@ -16,9 +16,8 @@ const InputTreeData = ({
   const [value, setValue] = useState<string>("");
   const [showForm, setShowForm] = useState(false);
   const [showInputForm, setShowInputForm] = useState(false);
-  const [selectedButton, setSelectedButton] = useState<number | null>(1);
+  const [selectedButton, setSelectedButton] = useState<number | null>(2);
   const [numInputs, setNumInputs] = useState<number>(10);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
@@ -52,32 +51,34 @@ const InputTreeData = ({
       {showForm ? (
         <div className="flex flex-col justify-around items-center w-full h-full">
           <div className="flex flex-col justify-center items-center w-full">
-            <p className="m-2 text-lg text-gray-700">Seleccione el tipo de árbol a crear</p>
+            <p className="m-2 text-lg text-gray-700">
+              Seleccione el tipo de árbol a crear
+            </p>
             <div className="m-2">
               <button
-                className={`bg-${
-                  selectedButton === 1 ? "blue" : "gray"
-                }-300 text-white font-bold py-2 px-4 rounded`}
+                className={`text-white font-bold py-2 px-4 rounded ${
+                  selectedButton === 2 ? "bg-blue-300" : "bg-gray-300"
+                }`}
                 type="button"
-                onClick={() => handleButtonClick(2, 1)}
+                onClick={() => handleButtonClick(2, 2)}
               >
                 Binario
               </button>
               <button
-                className={`bg-${
-                  selectedButton === 2 ? "blue" : "gray"
-                }-300 text-white font-bold py-2 px-4 rounded`}
+                className={`text-white font-bold py-2 px-4 rounded ${
+                  selectedButton === 3 ? "bg-blue-300" : "bg-gray-300"
+                }`}
                 type="button"
-                onClick={() => handleButtonClick(3, 2)}
+                onClick={() => handleButtonClick(3, 3)}
               >
                 Ternario
               </button>
               <button
-                className={`bg-${
-                  selectedButton === 3 ? "blue" : "gray"
-                }-300 text-white font-bold py-2 px-4 rounded`}
+                className={`text-white font-bold py-2 px-4 rounded ${
+                  selectedButton === 4 ? "bg-blue-300" : "bg-gray-300"
+                }`}
                 type="button"
-                onClick={() => handleButtonClick(4, 3)}
+                onClick={() => handleButtonClick(4, 4)}
               >
                 Cuaternario
               </button>
@@ -86,7 +87,9 @@ const InputTreeData = ({
           <form>
             {!showInputForm ? (
               <div className="flex flex-col justify-center items-center">
-                <p className="mb-2 text-lg text-gray-700">Indique la cantidad de inputs deseada</p>
+                <p className="mb-2 text-lg text-gray-700">
+                  Indique la cantidad de inputs deseada
+                </p>
                 <div className="flex">
                   <input
                     key="generate-elements-input"

@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { convert, generateNodeTable } from "../utils/functions";
 
 import "react-toastify/dist/ReactToastify.css";
+
 const Tree = () => {
   const [elements, setElements] = useState<number[]>([]);
   const [treeValue, setTreeValue] = useState<number>(2);
@@ -76,7 +77,7 @@ const Tree = () => {
     setNumInputs(n);
   };
   return (
-    <div className="flex flex-col justify-around items-center w-full h-full">
+    <div className="flex flex-col justify-around items-center w-full h-full overflow-y-auto">
       <ToastContainer
         position="top-center"
         autoClose={1000}
@@ -90,8 +91,8 @@ const Tree = () => {
         pauseOnHover={false}
         theme="colored"
       />
-      <div className="flex w-full h-full">
-        <div className="flex flex-col w-1/2">
+      <div className="flex flex-col md:flex-row w-full h-full">
+        <div className="flex flex-col md:w-1/2 w-full">
           <div className="flex-col justify-around items-center w-full bg-red-200 p-2">
             <div className="flex justify-center items-center w-full h-12">
               {elements.length ? (
