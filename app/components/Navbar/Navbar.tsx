@@ -6,7 +6,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-yellow-500 w-full h-24 flex justify-around items-center shadow-md fixed">
+    <nav className="fixed bg-yellow-500 w-full h-24 flex justify-around items-center shadow-md z-20">
       <div className="w-1/3flex items-center">
         <Link className="text-black text-xl font-bold" href="/">
           <img
@@ -17,30 +17,36 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="w-2/3 flex justify-end items-center">
-      <div className="flex justify-around items-center w-1/2">
+        <div className="flex justify-evenly items-center w-5/6">
           <Link
             href="/"
             className={`py-2 rounded-3xl text-center text-3xl hover:text-white w-0 hover:w-6 transition-all duration-500 ${
-              pathname === "/" ? "text-white py-2 rounded-3xl text-center text-3xl" : "text-black"
+              pathname === "/"
+                ? "text-white py-2 rounded-3xl text-center text-3xl"
+                : "text-black"
             }`}
           >
             Inicio
           </Link>
           <Link
-            href="/nosotros"
+            href="/about"
             className={`py-2 rounded-3xl text-center text-3xl hover:text-white w-0 hover:w-6 transition-all duration-500 ${
-              pathname === "/nosotros" ? "text-white py-2 rounded-3xl text-center text-3xl" : "text-black"
-            }`}
+              pathname === "/about"
+                ? "text-white py-2 rounded-3xl text-center text-3xl"
+                : "text-black"
+            }`} 
           >
-            Nosotros
+            Explicacion
           </Link>
           <Link
-            href="/contacto"
+            href="/app"
             className={`py-2 rounded-3xl text-center text-3xl hover:text-white w-0 hover:w-6 transition-all duration-500 ${
-              pathname === "/contacto" ? "text-white py-2 rounded-3xl text-center text-3xl" : "text-black"
+              pathname === "/app"
+                ? "text-white py-2 rounded-3xl text-center text-3xl"
+                : "text-black"
             }`}
           >
-            Contacto
+            Aplicacion
           </Link>
         </div>
       </div>
