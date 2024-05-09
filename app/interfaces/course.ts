@@ -1,4 +1,4 @@
-interface Teacher {
+export interface Teacher {
     name: string;
     schedules: string[];
 }

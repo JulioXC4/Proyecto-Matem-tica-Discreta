@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import { Node } from "@/app/interfaces/node";
@@ -96,3 +96,4 @@ const TreeDisplay: React.FC<TreeDisplayProps> = ({ rootNode }) => {
 };
 
 export default TreeDisplay;
+ */

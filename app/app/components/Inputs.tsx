@@ -5,20 +5,16 @@ import { TbBinaryTree } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
 
-interface Teacher {
-  name: string;
-  schedules: string[];
-}
-
-interface Course {
-  name: string;
-  teachers: Teacher[];
-}
+import { Node } from "@/app/interfaces/node";
+import { Course, Teacher } from "@/app/interfaces/course";
 
 interface InputsProps {
   addCourse: (course: Course) => void;
 }
-
+function printTree(root: Node | null) {
+  if (root === null) return;
+  console.log(root);
+}
 const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
   const [showForm, setShowForm] = useState(false);
   const [courseName, setCourseName] = useState("");
@@ -52,7 +48,7 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
     }
   };
 
-  const handleAddCourse = () => {
+  /* const handleAddCourse = () => {
     if (courseName.trim() === "") {
       setErrorMessage("Por favor, ingrese el nombre del curso.");
     } else if (teachers.some((teacher) => teacher.name.trim() === "")) {
@@ -63,34 +59,74 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
       setTeachers([{ name: "", schedules: ["", ""] }]);
       setErrorMessage("");
     }
+  }; */
+  const handleAddCourse = () => {
+    if (courseName.trim() === "") {
+      setErrorMessage("Por favor, ingrese el nombre del curso.");
+    } else if (teachers.some((teacher) => teacher.name.trim() === "")) {
+      setErrorMessage("Por favor, ingrese el nombre de todos los profesores.");
+    } else {
+      const treeRoot = new Node(courseName);
+      const teacherNames = teachers.map((teacher) => teacher.name);
+      const teacherSchedules = teachers
+        .map((teacher) => teacher.schedules)
+        .flat();
+
+      if (treeRoot.left === null) {
+        treeRoot.left = new Node(teacherNames[0]);
+        treeRoot.left.left = new Node(teacherSchedules[0]);
+        treeRoot.left.right = new Node(teacherSchedules[1]);
+      } else {
+        let current = treeRoot.left;
+        while (current !== null && current.right !== null) {
+          current = current.right;
+        }
+
+        if (current !== null) {
+          current.right = new Node(teacherNames[1]);
+          current.right.left = new Node(teacherSchedules[2]);
+          current.right.right = new Node(teacherSchedules[3]);
+        }
+      }
+      printTree(treeRoot);
+      addCourse({ name: courseName, teachers });
+      setCourseName("");
+      setTeachers([{ name: "", schedules: ["", ""] }]);
+      setErrorMessage("");
+    }
   };
 
   return (
-    <div>
+    <div className="flex">
       {showForm ? (
-        <div>
-          <div>
-            <label>Nombre del Curso:</label>
+        <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+          <div className="mb-4">
+            <label className="block text-gray-700">Nombre del Curso:</label>
             <input
+              className="form-input mt-1 block w-full rounded-md border-gray-300"
               type="text"
               value={courseName}
               onChange={(e) => setCourseName(e.target.value)}
             />
           </div>
           {teachers.map((teacher, teacherIndex) => (
-            <div key={teacherIndex}>
-              <label>{`Profesor ${teacherIndex + 1}:`}</label>
+            <div key={teacherIndex} className="mb-4">
+              <label className="block text-gray-700">{`Profesor ${
+                teacherIndex + 1
+              }:`}</label>
               <input
+                className="form-input mt-1 block w-full rounded-md border-gray-300"
                 type="text"
                 value={teacher.name}
                 onChange={(e) =>
                   handleTeacherChange(teacherIndex, "name", e.target.value)
                 }
               />
-              <div>
+              <div className="mt-2">
                 {teacher.schedules.map((schedule, scheduleIndex) => (
                   <input
                     key={scheduleIndex}
+                    className="form-input mt-1 block w-full rounded-md border-gray-300"
                     type="text"
                     value={schedule}
                     onChange={(e) =>
@@ -105,9 +141,19 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
               </div>
             </div>
           ))}
-          <button onClick={handleAddTeacher}>Agregar Profesor</button>
-          <button onClick={handleAddCourse}>Agregar Curso</button>
-          {errorMessage && <p>{errorMessage}</p>}
+          <button
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+            onClick={handleAddTeacher}
+          >
+            Agregar Profesor
+          </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={handleAddCourse}
+          >
+            Agregar Curso
+          </button>
+          {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
         </div>
       ) : (
         <div>
