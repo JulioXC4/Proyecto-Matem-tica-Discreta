@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { TbBinaryTree } from "react-icons/tb";
 import { MdOutlineCancel } from "react-icons/md";
+import { GiTeacher } from "react-icons/gi";
 import { Node } from "@/app/interfaces/node";
+import { FaBook } from "react-icons/fa";
 import { Course, Teacher } from "@/app/interfaces/course";
 import Modal from "./Modal";
 
@@ -101,13 +102,13 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
   };
 
   return (
-    <div className="flex justify-start items-center w-full h-full">
+    <div className="flex justify-center items-center w-full h-full">
       <div className="m-4">
         <button
           className="bg-green-400 w-36 h-36 rounded-lg text-white text-center flex flex-col justify-evenly items-center shadow-md transform transition-transform hover:scale-105"
           onClick={handleOpenModal}
         >
-          <TbBinaryTree className="mt-2 w-12 h-12" />
+          <FaBook className="mt-2 w-12 h-12" />
           Agregar Curso
         </button>
       </div>
@@ -165,16 +166,18 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
             </div>
           ))}
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline m-2"
             onClick={handleAddTeacher}
           >
             Agregar Profesor
+            <GiTeacher className="w-8 h-8"/>
           </button>
           <button
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2"
             onClick={handleAddCourse}
           >
             Crear Curso
+            <FaBook className="w-8 h-8"/>
           </button>
           {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
         </div>

@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Course } from "@/app/interfaces/course";
 import { TbBinaryTree } from "react-icons/tb";
+import { SlNotebook } from "react-icons/sl";
+import { FaTable } from "react-icons/fa";
 import { Node } from "@/app/interfaces/node";
 import { instance } from "@viz-js/viz";
 import Modal from "./Modal";
@@ -181,96 +183,110 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
   }
 
   return (
-    <div className="w-full max-h-[300px] overflow-x-auto">
-      <table className="min-w-full">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border font-medium px-4 py-2 bg-gray-200">Índice</th>
-            <th className="border font-medium px-4 py-2 bg-gray-200">
-              Nombre del Curso
-            </th>
-            <th className="border font-medium px-4 py-2 bg-gray-200">
-              Profesor
-            </th>
-            <th className="border font-medium px-4 py-2 bg-gray-200">
-              Horarios
-            </th>
-            <th className="border font-medium px-4 py-2 bg-gray-200">
-              Representacion
-            </th>
-            <th className="border font-medium px-4 py-2 bg-gray-200">LDR</th>
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {courses.map((course, index) =>
-            course.course.teachers.map((teacher, teacherIndex) => (
-              <tr
-                key={`${course.course.name}-${teacherIndex}`}
-                className="bg-white"
-              >
-                {teacherIndex === 0 && (
-                  <>
-                    <td
-                      className="border px-4 py-2"
-                      rowSpan={course.course.teachers.length}
-                    >
-                      {index + 1}
-                    </td>
-                    <td
-                      className="border px-4 py-2"
-                      rowSpan={course.course.teachers.length}
-                    >
-                      {course.course.name}
-                    </td>
-                  </>
-                )}
-                <td className="border px-4 py-2">{teacher.name}</td>
-                <td className="border px-4 py-2">
-                  <ul>
-                    {teacher.schedules.map((schedule, scheduleIndex) => (
-                      <li
-                        key={`${course.course.name}-${teacherIndex}-${scheduleIndex}`}
-                      >
-                        {schedule}
-                      </li>
-                    ))}
-                  </ul>
-                </td>
-                {teacherIndex === 0 && (
-                  <>
-                    <td
-                      className="border px-4 py-2"
-                      rowSpan={course.course.teachers.length}
-                    >
-                      <div className="flex justify-center items-center">
-                        <button
-                          className="bg-green-400 w-16 h-16 rounded-lg text-white text-center text-xs flex flex-col justify-center items-center shadow-md transform transition-transform hover:scale-105"
-                          onClick={() => handleOpenModal1(course)}
-                        >
-                          <TbBinaryTree className="w-8 h-8" />
-                        </button>
-                      </div>
-                    </td>
-                    <td
-                      className="border px-4 py-2"
-                      rowSpan={course.course.teachers.length}
-                    >
-                      <div className="flex justify-center items-center">
-                        <button
-                          className="bg-blue-400 w-16 h-16 rounded-lg text-white text-center text-xs flex flex-col justify-center items-center shadow-md transform transition-transform hover:scale-105"
-                          onClick={() => handleOpenModal2(course)}
-                        >
-                          <TbBinaryTree className="w-8 h-8" />
-                        </button>
-                      </div>
-                    </td>
-                  </>
-                )}
+    <div className="w-full max-h-[300px] overflow-x-auto rounded-xl">
+      {courses.length !== 0 ? (
+        <div>
+          <table className="min-w-full">
+            <thead>
+              <tr className="bg-red-300">
+                <th className="border font-medium px-4 py-2 bg-red-300 ">
+                  Índice
+                </th>
+                <th className="border font-medium px-4 py-2 bg-red-300">
+                  Nombre del Curso
+                </th>
+                <th className="border font-medium px-4 py-2 bg-red-300">
+                  Profesor
+                </th>
+                <th className="border font-medium px-4 py-2 bg-red-300">
+                  Horarios
+                </th>
+                <th className="border font-medium px-4 py-2 bg-red-300">
+                  Representacion
+                </th>
+                <th className="border font-medium px-4 py-2 bg-red-300">LDR</th>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody className="text-center">
+              {courses.map((course, index) =>
+                course.course.teachers.map((teacher, teacherIndex) => (
+                  <tr
+                    key={`${course.course.name}-${teacherIndex}`}
+                    className="bg-white"
+                  >
+                    {teacherIndex === 0 && (
+                      <>
+                        <td
+                          className="border px-4 py-2"
+                          rowSpan={course.course.teachers.length}
+                        >
+                          {index + 1}
+                        </td>
+                        <td
+                          className="border px-4 py-2"
+                          rowSpan={course.course.teachers.length}
+                        >
+                          {course.course.name}
+                        </td>
+                      </>
+                    )}
+                    <td className="border px-4 py-2">{teacher.name}</td>
+                    <td className="border px-4 py-2">
+                      <ul>
+                        {teacher.schedules.map((schedule, scheduleIndex) => (
+                          <li
+                            key={`${course.course.name}-${teacherIndex}-${scheduleIndex}`}
+                          >
+                            {schedule}
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                    {teacherIndex === 0 && (
+                      <>
+                        <td
+                          className="border px-4 py-2"
+                          rowSpan={course.course.teachers.length}
+                        >
+                          <div className="flex justify-center items-center">
+                            <button
+                              className="bg-yellow-400 w-16 h-16 rounded-lg text-white text-center text-xs flex flex-col justify-center items-center shadow-md transform transition-transform hover:scale-105"
+                              onClick={() => handleOpenModal1(course)}
+                            >
+                              <TbBinaryTree className="w-8 h-8" />
+                            </button>
+                          </div>
+                        </td>
+                        <td
+                          className="border px-4 py-2"
+                          rowSpan={course.course.teachers.length}
+                        >
+                          <div className="flex justify-center items-center">
+                            <button
+                              className="bg-blue-400 w-16 h-16 rounded-lg text-white text-center text-xs flex flex-col justify-center items-center shadow-md transform transition-transform hover:scale-105"
+                              onClick={() => handleOpenModal2(course)}
+                            >
+                              <FaTable className="w-8 h-8" />
+                            </button>
+                          </div>
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center h-full w-full">
+          <SlNotebook className="w-32 h-32 m-4 text-gray-500" />
+          <p className="text-gray-500 m-4">
+            Aún no has creado cursos. Por favor, crea cursos para poder ver los
+            horarios.
+          </p>
+        </div>
+      )}
       <Modal isOpen={showModal1} onClose={handleCloseModal1}>
         {selectedCourse && (
           <div className="flex justify-center items-center w-full h-full">
@@ -283,39 +299,39 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
           <table className="table-auto w-full">
             <thead>
               <tr>
-                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                <th className="bg-blue-400 border-b border-gray-500 px-4 py-2">
                   Index
                 </th>
-                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                <th className="bg-blue-400 border-b border-gray-500 px-4 py-2">
                   Left
                 </th>
-                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                <th className="bg-blue-400 border-b border-gray-500 px-4 py-2">
                   Data
                 </th>
-                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                <th className="bg-blue-400 border-b border-gray-500 px-4 py-2">
                   Right
                 </th>
               </tr>
             </thead>
             <tbody className="text-center">
               <tr>
-                <td className="border border-gray-300 px-4 py-2">1</td>
-                <td className="border border-gray-300 px-4 py-2">2</td>
-                <td className="border bg-gray-400 border-gray-300 px-4 py-2"></td>
-                <td className="border bg-gray-400 border-gray-300 px-4 py-2"></td>
+                <td className="border border-gray-500 px-4 py-2">1</td>
+                <td className="border border-gray-500 px-4 py-2">2</td>
+                <td className="border bg-gray-400 border-gray-500 px-4 py-2"></td>
+                <td className="border bg-gray-400 border-gray-500 px-4 py-2"></td>
               </tr>
               {ldrArray.map((nodeInfo, index) => (
                 <tr key={index + 1}>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-500 px-4 py-2">
                     {nodeInfo.i + 1}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-500 px-4 py-2">
                     {nodeInfo.left !== null ? nodeInfo.left + 1 : "0"}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-500 px-4 py-2">
                     {nodeInfo.data !== null ? nodeInfo.data : "0"}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-500 px-4 py-2">
                     {nodeInfo.right !== null ? nodeInfo.right + 1 : "0"}
                   </td>
                 </tr>

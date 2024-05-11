@@ -18,7 +18,7 @@ const App: React.FC = () => {
   return (
     <div className="bg-[#D2CABF] h-screen w-full flex justify-center items-center">
       <div className="flex flex-col justify-evenly items-center w-5/6 h-full">
-        <div>
+        <div className="flex justify-center items-center w-full border-b border-gray-400 rounded-md p-4">
           <Inputs addCourse={addCourse} />
         </div>
         <Courses courses={courseList} />
