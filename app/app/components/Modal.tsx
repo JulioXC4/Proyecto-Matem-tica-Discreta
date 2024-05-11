@@ -16,7 +16,9 @@ const Modal = ({ isOpen, onClose, children }: any) => {
                 Cerrar
               </button>
             </div>
-            <div className="relative flex flex-col w-full max-h-96 overflow-y-auto my-4">{children}</div>
+            <div className="relative flex flex-col w-full max-h-96 overflow-y-auto my-4">
+              {children}
+            </div>
           </div>
         </div>
       ) : null}

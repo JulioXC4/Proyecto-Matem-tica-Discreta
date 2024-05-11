@@ -7,16 +7,10 @@ import { Node } from "@/app/interfaces/node";
 import { Course, Teacher } from "@/app/interfaces/course";
 import Modal from "./Modal";
 
-/* interface InputsProps {
-  addCourse: (course: Course) => void;
-} */
 interface InputsProps {
   addCourse: (course: Course, rootNode: Node | null) => void;
 }
-function printTree(root: Node | null) {
-  if (root === null) return;
-  console.log(root);
-}
+
 const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
   const [treeRoot, setTreeRoot] = useState<Node | null>(null);
   const [courseName, setCourseName] = useState("");
@@ -51,7 +45,6 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
   };
 
   const handleAddTeacher = () => {
-    console.log("Profes actuales", teachers);
     if (teachers.length < 2) {
       setTeachers([...teachers, { name: "", schedules: ["", ""] }]);
     } else {
@@ -70,8 +63,14 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
       setErrorMessage("Por favor, ingrese el nombre del curso.");
     } else if (teachers.some((teacher) => teacher.name.trim() === "")) {
       setErrorMessage("Por favor, ingrese el nombre de todos los profesores.");
-    } else if (teachers.some((teacher) => teacher.schedules.some((schedule) => schedule.trim() === ""))) {
-      setErrorMessage("Por favor, ingrese al menos un horario para cada profesor.");
+    } else if (
+      teachers.some((teacher) =>
+        teacher.schedules.some((schedule) => schedule.trim() === "")
+      )
+    ) {
+      setErrorMessage(
+        "Por favor, ingrese al menos un horario para cada profesor."
+      );
     } else {
       const treeRoot = new Node(courseName);
       const teacherNames = teachers.map((teacher) => teacher.name);
@@ -81,12 +80,14 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
 
       let current = treeRoot;
 
-      if (current.left === null) {
+      if (teachers.length === 1) {
         current.left = new Node(teacherNames[0]);
         current.left.left = new Node(teacherSchedules[0]);
         current.left.right = new Node(teacherSchedules[1]);
-      }
-      if (current.right === null) {
+      } else if (teachers.length === 2) {
+        current.left = new Node(teacherNames[0]);
+        current.left.left = new Node(teacherSchedules[0]);
+        current.left.right = new Node(teacherSchedules[1]);
         current.right = new Node(teacherNames[1]);
         current.right.left = new Node(teacherSchedules[2]);
         current.right.right = new Node(teacherSchedules[3]);

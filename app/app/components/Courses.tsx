@@ -8,54 +8,56 @@ import { instance } from "@viz-js/viz";
 import Modal from "./Modal";
 
 interface CoursesProps {
-  courses: { course: Course, rootNode: Node | null }[];
+  courses: { course: Course; rootNode: Node | null }[];
 }
 
-const  Courses: React.FC<CoursesProps> = ({ courses }) => {
+const Courses: React.FC<CoursesProps> = ({ courses }) => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showModal, setShowModal] = useState(false);
   const graphRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenModal = (courseData: { course: Course, rootNode: Node | null }) => {
+  const handleOpenModal = (courseData: {
+    course: Course;
+    rootNode: Node | null;
+  }) => {
     setSelectedCourse(courseData.course);
     setShowModal(true);
     if (courseData.rootNode) {
       const dot = generateBinaryGraph(courseData.rootNode);
       renderGraph(dot);
     }
-  };;
+  };
 
   const handleCloseModal = () => {
-    setShowModal(false); 
+    setShowModal(false);
     if (graphRef.current) {
       graphRef.current.innerHTML = "";
     }
   };
 
   function generateBinaryGraph(rootNode: Node): string {
-    console.log("Root node", rootNode)
     let dot = "digraph {\n";
     dot += "node [style=filled, shape=circle];\n";
-  
+
     function traverse(node: Node | null) {
       if (node) {
         dot += `"${node.value}" [label="${node.value}"];\n`;
-  
+
         if (node.left) {
           dot += `"${node.value}" -> "${node.left.value}";\n`;
           traverse(node.left);
         }
-  
+
         if (node.right) {
           dot += `"${node.value}" -> "${node.right.value}";\n`;
           traverse(node.right);
         }
       }
     }
-  
+
     traverse(rootNode);
     dot += "}";
-  
+
     return dot;
   }
 
@@ -99,7 +101,10 @@ const  Courses: React.FC<CoursesProps> = ({ courses }) => {
         <tbody className="text-center">
           {courses.map((course, index) =>
             course.course.teachers.map((teacher, teacherIndex) => (
-              <tr key={`${course.course.name}-${teacherIndex}`} className="bg-white">
+              <tr
+                key={`${course.course.name}-${teacherIndex}`}
+                className="bg-white"
+              >
                 {teacherIndex === 0 && (
                   <>
                     <td
@@ -157,7 +162,7 @@ const  Courses: React.FC<CoursesProps> = ({ courses }) => {
         </tbody>
       </table>
       <Modal isOpen={showModal} onClose={handleCloseModal}>
-        {selectedCourse && ( 
+        {selectedCourse && (
           <div className="flex justify-center items-center w-full h-full">
             <div id="graph" ref={graphRef}></div>
           </div>

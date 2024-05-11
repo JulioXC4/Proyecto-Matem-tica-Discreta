@@ -7,11 +7,9 @@ import { Course } from "@/app/interfaces/course";
 import { Node } from "@/app/interfaces/node";
 
 const App: React.FC = () => {
-  //const [courseList, setCourseList] = useState<Course[]>([]);
-  /*  const addCourse = (course: Course) => {
-    setCourseList([...courseList, course]);
-  }; */
-  const [courseList, setCourseList] = useState<{ course: Course, rootNode: Node | null }[]>([]);
+  const [courseList, setCourseList] = useState<
+    { course: Course; rootNode: Node | null }[]
+  >([]);
 
   const addCourse = (course: Course, rootNode: Node | null) => {
     setCourseList([...courseList, { course, rootNode }]);
@@ -23,7 +21,7 @@ const App: React.FC = () => {
         <div>
           <Inputs addCourse={addCourse} />
         </div>
-        <Courses courses={courseList}/>
+        <Courses courses={courseList} />
       </div>
     </div>
   );
