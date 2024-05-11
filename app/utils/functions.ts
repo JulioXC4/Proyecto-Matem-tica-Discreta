@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { Node } from "../interfaces/node";
+
 export const createRandomElements = (n: number): number[] => {
     const elements: number[] = [];
     const uniqueValues = new Set<number>();
@@ -67,3 +68,23 @@ export function generateNodeTable(root: Node | null): NodeTable[] {
 
     return nodeTable;
 }
+
+function insertNode(root: Node | null, value: string): void {
+    if (root === null) {
+      root = new Node(value);
+    } else {
+      if (value.localeCompare(root.value) < 0) {
+        if (root.left === null) {
+          root.left = new Node(value);
+        } else {
+          insertNode(root.left, value);
+        }
+      } else {
+        if (root.right === null) {
+          root.right = new Node(value);
+        } else {
+          insertNode(root.right, value);
+        }
+      }
+    }
+  }

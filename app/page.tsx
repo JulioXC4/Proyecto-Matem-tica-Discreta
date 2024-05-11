@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Tree from "./components/Tree";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 export default function Home() {
-  return <Tree />
+  return <LandingPage />;
 }
