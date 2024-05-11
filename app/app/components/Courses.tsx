@@ -13,26 +13,47 @@ interface CoursesProps {
 
 const Courses: React.FC<CoursesProps> = ({ courses }) => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+  const [ldrArray, setLDRArray] = useState<string[]>([]);
   const graphRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenModal = (courseData: {
+  const handleOpenModal1 = (courseData: {
     course: Course;
     rootNode: Node | null;
   }) => {
     setSelectedCourse(courseData.course);
-    setShowModal(true);
+    setShowModal1(true);
     if (courseData.rootNode) {
       const dot = generateBinaryGraph(courseData.rootNode);
       renderGraph(dot);
     }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleCloseModal1 = () => {
+    setShowModal1(false);
     if (graphRef.current) {
       graphRef.current.innerHTML = "";
     }
+  };
+
+  const handleOpenModal2 = (courseData: {
+    course: Course;
+    rootNode: Node | null;
+  }) => {
+    setSelectedCourse(courseData.course);
+    setShowModal2(true);
+
+    if (courseData.rootNode) {
+      const ldrArray = getNodeInfoArray(courseData.rootNode)
+      //const ldrArray = getLDRArray(courseData.rootNode);
+      console.log("Info del ldr", ldrArray)
+      //setLDRArray(ldrArray);
+    }
+  };
+
+  const handleCloseModal2 = () => {
+    setShowModal2(false);
   };
 
   function generateBinaryGraph(rootNode: Node): string {
@@ -77,6 +98,69 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
         console.error("Error al instanciar viz.js:", error);
       });
   }
+
+  function getLDRArray(rootNode: Node | null): string[] {
+    const result: string[] = [];
+
+    function traverse(node: Node | null) {
+      if (node) {
+        traverse(node.left);
+
+        result.push(node.value);
+
+        traverse(node.right);
+      }
+    }
+
+    traverse(rootNode);
+
+    return result;
+  }
+  interface NodeInfo {
+    i: number;
+    left: number | null;
+    data: string | null;
+    right: number | null;
+}
+
+function getNodeInfo(node: Node | null, index: number): NodeInfo | null {
+  if (!node) {
+      return null;
+  }
+
+  return {
+      i: index,
+      left: node.left ? index * 2 : null,
+      data: node.value,
+      right: node.right ? index * 2 + 1 : null,
+  };
+}
+
+function getNodeInfoArray(rootNode: Node | null): NodeInfo[] {
+  if (!rootNode) {
+      return [];
+  }
+
+  const nodeInfoArray: NodeInfo[] = [];
+  const queue: { node: Node; index: number }[] = [{ node: rootNode, index: 1 }];
+
+  while (queue.length > 0) {
+      const { node, index } = queue.shift()!;
+      const nodeInfo = getNodeInfo(node, index);
+      if (nodeInfo) {
+          nodeInfoArray.push(nodeInfo);
+          if (node.left) {
+              queue.push({ node: node.left, index: index * 2 });
+          }
+          if (node.right) {
+              queue.push({ node: node.right, index: index * 2 + 1 });
+          }
+      }
+  }
+
+  return nodeInfoArray;
+}
+
   return (
     <div className="w-full max-h-[300px] overflow-x-auto">
       <table className="min-w-full">
@@ -142,7 +226,7 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
                       <div className="flex justify-center items-center">
                         <button
                           className="bg-green-400 w-16 h-16 rounded-lg text-white text-center text-xs flex flex-col justify-center items-center shadow-md transform transition-transform hover:scale-105"
-                          onClick={() => handleOpenModal(course)}
+                          onClick={() => handleOpenModal1(course)}
                         >
                           <TbBinaryTree className="w-8 h-8" />
                         </button>
@@ -152,7 +236,14 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
                       className="border px-4 py-2"
                       rowSpan={course.course.teachers.length}
                     >
-                      {course.course.name}
+                      <div className="flex justify-center items-center">
+                        <button
+                          className="bg-blue-400 w-16 h-16 rounded-lg text-white text-center text-xs flex flex-col justify-center items-center shadow-md transform transition-transform hover:scale-105"
+                          onClick={() => handleOpenModal2(course)}
+                        >
+                          <TbBinaryTree className="w-8 h-8" />
+                        </button>
+                      </div>
                     </td>
                   </>
                 )}
@@ -161,12 +252,24 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
           )}
         </tbody>
       </table>
-      <Modal isOpen={showModal} onClose={handleCloseModal}>
+      <Modal isOpen={showModal1} onClose={handleCloseModal1}>
         {selectedCourse && (
           <div className="flex justify-center items-center w-full h-full">
             <div id="graph" ref={graphRef}></div>
           </div>
         )}
+      </Modal>
+      <Modal isOpen={showModal2} onClose={handleCloseModal2}>
+        <div className="flex justify-center items-center w-full h-full">
+          <div>
+            <h2>Arreglo LDR del Árbol Binario</h2>
+            <ul>
+              {ldrArray.map((value, index) => (
+                <li key={index}>{value}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </Modal>
     </div>
   );
