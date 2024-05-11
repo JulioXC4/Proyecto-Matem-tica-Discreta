@@ -15,7 +15,7 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
-  const [ldrArray, setLDRArray] = useState<string[]>([]);
+  const [ldrArray, setLDRArray] = useState<NodeInfo[]>([]);
   const graphRef = useRef<HTMLDivElement>(null);
 
   const handleOpenModal1 = (courseData: {
@@ -45,10 +45,9 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
     setShowModal2(true);
 
     if (courseData.rootNode) {
-      const ldrArray = getNodeInfoArray(courseData.rootNode)
-      //const ldrArray = getLDRArray(courseData.rootNode);
-      console.log("Info del ldr", ldrArray)
-      //setLDRArray(ldrArray);
+      const ldrArray = getNodeInfoArray(courseData.rootNode);
+      console.log("Ldr, array", ldrArray)
+      setLDRArray(ldrArray);
     }
   };
 
@@ -99,67 +98,52 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
       });
   }
 
-  function getLDRArray(rootNode: Node | null): string[] {
-    const result: string[] = [];
-
-    function traverse(node: Node | null) {
-      if (node) {
-        traverse(node.left);
-
-        result.push(node.value);
-
-        traverse(node.right);
-      }
-    }
-
-    traverse(rootNode);
-
-    return result;
-  }
   interface NodeInfo {
     i: number;
     left: number | null;
     data: string | null;
     right: number | null;
-}
-
-function getNodeInfo(node: Node | null, index: number): NodeInfo | null {
-  if (!node) {
-      return null;
   }
 
-  return {
+  function getNodeInfo(node: Node | null, index: number): NodeInfo | null {
+    if (!node) {
+      return null;
+    }
+
+    return {
       i: index,
       left: node.left ? index * 2 : null,
       data: node.value,
       right: node.right ? index * 2 + 1 : null,
-  };
-}
-
-function getNodeInfoArray(rootNode: Node | null): NodeInfo[] {
-  if (!rootNode) {
-      return [];
+    };
   }
 
-  const nodeInfoArray: NodeInfo[] = [];
-  const queue: { node: Node; index: number }[] = [{ node: rootNode, index: 1 }];
+  function getNodeInfoArray(rootNode: Node | null): NodeInfo[] {
+    if (!rootNode) {
+      return [];
+    }
 
-  while (queue.length > 0) {
+    const nodeInfoArray: NodeInfo[] = [];
+    const queue: { node: Node; index: number }[] = [
+      { node: rootNode, index: 1 },
+    ];
+
+    while (queue.length > 0) {
       const { node, index } = queue.shift()!;
       const nodeInfo = getNodeInfo(node, index);
       if (nodeInfo) {
-          nodeInfoArray.push(nodeInfo);
-          if (node.left) {
-              queue.push({ node: node.left, index: index * 2 });
-          }
-          if (node.right) {
-              queue.push({ node: node.right, index: index * 2 + 1 });
-          }
+        nodeInfoArray.push(nodeInfo);
+        if (node.left) {
+          queue.push({ node: node.left, index: index * 2 });
+        }
+        if (node.right) {
+          queue.push({ node: node.right, index: index * 2 + 1 });
+        }
       }
-  }
+    }
 
-  return nodeInfoArray;
-}
+    return nodeInfoArray;
+  }
 
   return (
     <div className="w-full max-h-[300px] overflow-x-auto">
@@ -260,15 +244,49 @@ function getNodeInfoArray(rootNode: Node | null): NodeInfo[] {
         )}
       </Modal>
       <Modal isOpen={showModal2} onClose={handleCloseModal2}>
-        <div className="flex justify-center items-center w-full h-full">
-          <div>
-            <h2>Arreglo LDR del Árbol Binario</h2>
-            <ul>
-              {ldrArray.map((value, index) => (
-                <li key={index}>{value}</li>
+        <div className="container mx-auto px-4 py-8">
+          <table className="table-auto w-full">
+            <thead>
+              <tr>
+                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                  Index
+                </th>
+                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                  Left
+                </th>
+                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                  Data
+                </th>
+                <th className="bg-gray-200 border-b border-gray-300 px-4 py-2">
+                  Right
+                </th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">1</td>
+                <td className="border border-gray-300 px-4 py-2">2</td>
+                <td className="border bg-gray-400 border-gray-300 px-4 py-2"></td>
+                <td className="border bg-gray-400 border-gray-300 px-4 py-2"></td>
+              </tr>
+              {ldrArray.map((nodeInfo, index) => (
+                <tr key={index + 1}>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {nodeInfo.i + 1}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {nodeInfo.left !== null ? nodeInfo.left + 1 : "0"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {nodeInfo.data !== null ? nodeInfo.data : "0"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {nodeInfo.right !== null ? nodeInfo.right + 1 : "0"}
+                  </td>
+                </tr>
               ))}
-            </ul>
-          </div>
+            </tbody>
+          </table>
         </div>
       </Modal>
     </div>
