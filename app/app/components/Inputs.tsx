@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { TbBinaryTree } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
-
 import { Node } from "@/app/interfaces/node";
 import { Course, Teacher } from "@/app/interfaces/course";
+import Modal from "./Modal";
 
 interface InputsProps {
   addCourse: (course: Course) => void;
@@ -22,7 +22,15 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
     { name: "", schedules: ["", ""] },
   ]);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   const handleTeacherChange = (index: number, key: string, value: string) => {
     const updatedTeachers = [...teachers];
     //@ts-ignore
@@ -48,18 +56,12 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
     }
   };
 
-  /* const handleAddCourse = () => {
-    if (courseName.trim() === "") {
-      setErrorMessage("Por favor, ingrese el nombre del curso.");
-    } else if (teachers.some((teacher) => teacher.name.trim() === "")) {
-      setErrorMessage("Por favor, ingrese el nombre de todos los profesores.");
-    } else {
-      addCourse({ name: courseName, teachers });
-      setCourseName("");
-      setTeachers([{ name: "", schedules: ["", ""] }]);
-      setErrorMessage("");
-    }
-  }; */
+  const handleRemoveTeacher = (index: number) => {
+    const updatedTeachers = [...teachers];
+    updatedTeachers.splice(index, 1);
+    setTeachers(updatedTeachers);
+  };
+
   const handleAddCourse = () => {
     if (courseName.trim() === "") {
       setErrorMessage("Por favor, ingrese el nombre del curso.");
@@ -97,25 +99,43 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
   };
 
   return (
-    <div className="flex">
-      {showForm ? (
-        <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-          <div className="mb-4">
-            <label className="block text-gray-700">Nombre del Curso:</label>
+    <div className="flex justify-start items-center w-full h-full">
+      <div className="m-4">
+        <button
+          className="bg-green-400 w-36 h-36 rounded-lg text-white text-center flex flex-col justify-evenly items-center shadow-md transform transition-transform hover:scale-105"
+          onClick={handleOpenModal}
+        >
+          <TbBinaryTree className="mt-2 w-12 h-12" />
+          Agregar Curso
+        </button>
+      </div>
+      <Modal isOpen={showModal} onClose={handleCloseModal}>
+        <div className="max-w-md mx-auto p-6">
+          <div className="mb-2 bg-red-300 p-2 pb-4 rounded-lg">
+            <label className="block text-gray-700">Nombre del Curso</label>
             <input
-              className="form-input mt-1 block w-full rounded-md border-gray-300"
+              className="form-input mt-1 block w-full rounded-md bg-gray-200 border-gray-300"
               type="text"
               value={courseName}
               onChange={(e) => setCourseName(e.target.value)}
             />
           </div>
           {teachers.map((teacher, teacherIndex) => (
-            <div key={teacherIndex} className="mb-4">
+            <div
+              key={teacherIndex}
+              className="relative mb-4 bg-gray-400 rounded-lg p-2"
+            >
+              <button
+                className="absolute right-2 text-red-500 hover:text-red-600 focus:outline-none"
+                onClick={() => handleRemoveTeacher(teacherIndex)}
+              >
+                <MdOutlineCancel className="w-6 h-6" />
+              </button>
               <label className="block text-gray-700">{`Profesor ${
                 teacherIndex + 1
-              }:`}</label>
+              }`}</label>
               <input
-                className="form-input mt-1 block w-full rounded-md border-gray-300"
+                className="form-input mt-1 block w-full rounded-md bg-gray-200 border-gray-300"
                 type="text"
                 value={teacher.name}
                 onChange={(e) =>
@@ -123,10 +143,11 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
                 }
               />
               <div className="mt-2">
+                <label className="block text-gray-700">Horarios</label>
                 {teacher.schedules.map((schedule, scheduleIndex) => (
                   <input
                     key={scheduleIndex}
-                    className="form-input mt-1 block w-full rounded-md border-gray-300"
+                    className="form-input my-2 block w-full rounded-md bg-gray-200 border-gray-300"
                     type="text"
                     value={schedule}
                     onChange={(e) =>
@@ -142,30 +163,20 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
             </div>
           ))}
           <button
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2"
             onClick={handleAddTeacher}
           >
             Agregar Profesor
           </button>
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2"
             onClick={handleAddCourse}
           >
-            Agregar Curso
+            Crear Curso
           </button>
           {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
         </div>
-      ) : (
-        <div>
-          <button
-            className="bg-green-400 w-36 h-36 rounded-lg text-white text-center flex flex-col justify-evenly items-center shadow-md transform transition-transform hover:scale-105"
-            onClick={() => setShowForm(!showForm)}
-          >
-            <TbBinaryTree className="mt-2 w-12 h-12" />
-            Agregar Curso
-          </button>
-        </div>
-      )}
+      </Modal>
     </div>
   );
 };
