@@ -46,7 +46,7 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
 
     if (courseData.rootNode) {
       const ldrArray = getNodeInfoArray(courseData.rootNode);
-      console.log("Ldr, array", ldrArray)
+      console.log("Ldr, array", ldrArray);
       setLDRArray(ldrArray);
     }
   };
@@ -122,22 +122,57 @@ const Courses: React.FC<CoursesProps> = ({ courses }) => {
     if (!rootNode) {
       return [];
     }
-
     const nodeInfoArray: NodeInfo[] = [];
-    const queue: { node: Node; index: number }[] = [
-      { node: rootNode, index: 1 },
-    ];
 
-    while (queue.length > 0) {
-      const { node, index } = queue.shift()!;
-      const nodeInfo = getNodeInfo(node, index);
-      if (nodeInfo) {
-        nodeInfoArray.push(nodeInfo);
-        if (node.left) {
-          queue.push({ node: node.left, index: index * 2 });
+    if (rootNode.right === null) {
+      const teacher = rootNode.left;
+      if (teacher) {
+        nodeInfoArray.push({
+          i: 1,
+          left: 2,
+          data: rootNode.value,
+          right: null,
+        });
+
+        nodeInfoArray.push({
+          i: 2,
+          left: 3,
+          data: teacher?.value,
+          right: 4,
+        });
+
+        nodeInfoArray.push({
+          i: 3,
+          left: null,
+          data: teacher.left?.value || null,
+          right: null,
+        });
+
+        nodeInfoArray.push({
+          i: 4,
+          left: null,
+          data: teacher.right?.value || null,
+          right: null,
+        });
+      }
+    } else {
+      const queue: { node: Node; index: number }[] = [
+        { node: rootNode, index: 1 },
+      ];
+
+      while (queue.length > 0) {
+        const { node, index } = queue.shift()!;
+        const nodeInfo = getNodeInfo(node, index);
+        if (rootNode.right === null) {
         }
-        if (node.right) {
-          queue.push({ node: node.right, index: index * 2 + 1 });
+        if (nodeInfo) {
+          nodeInfoArray.push(nodeInfo);
+          if (node.left) {
+            queue.push({ node: node.left, index: index * 2 });
+          }
+          if (node.right) {
+            queue.push({ node: node.right, index: index * 2 + 1 });
+          }
         }
       }
     }
