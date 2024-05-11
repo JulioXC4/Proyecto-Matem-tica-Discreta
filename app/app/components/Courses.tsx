@@ -27,29 +27,35 @@ const  Courses: React.FC<CoursesProps> = ({ courses }) => {
 
   const handleCloseModal = () => {
     setShowModal(false); 
+    if (graphRef.current) {
+      graphRef.current.innerHTML = "";
+    }
   };
 
   function generateBinaryGraph(rootNode: Node): string {
-    let dot = "digraph {";
-    dot += "node [style=filled, shape=circle];";
-
-    function traverse(node: Node) {
-      dot += `${node.value};`;
-
-      if (node.left) {
-        dot += `${node.value} -> ${node.left.value};`;
-        traverse(node.left);
-      }
-
-      if (node.right) {
-        dot += `${node.value} -> ${node.right.value};`;
-        traverse(node.right);
+    console.log("Root node", rootNode)
+    let dot = "digraph {\n";
+    dot += "node [style=filled, shape=circle];\n";
+  
+    function traverse(node: Node | null) {
+      if (node) {
+        dot += `"${node.value}" [label="${node.value}"];\n`;
+  
+        if (node.left) {
+          dot += `"${node.value}" -> "${node.left.value}";\n`;
+          traverse(node.left);
+        }
+  
+        if (node.right) {
+          dot += `"${node.value}" -> "${node.right.value}";\n`;
+          traverse(node.right);
+        }
       }
     }
-
+  
     traverse(rootNode);
     dot += "}";
-
+  
     return dot;
   }
 
@@ -60,8 +66,8 @@ const  Courses: React.FC<CoursesProps> = ({ courses }) => {
         if (graphRef.current) {
           graphRef.current.innerHTML = "";
           svg.classList.add("instance-svg");
-          svg.style.width = "200px";
-          svg.style.height = "200px";
+          svg.style.width = "300px";
+          svg.style.height = "300px";
           graphRef.current.appendChild(svg);
         }
       })
