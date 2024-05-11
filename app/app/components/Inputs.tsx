@@ -2,27 +2,29 @@
 
 import React, { useState } from "react";
 import { TbBinaryTree } from "react-icons/tb";
-import { FaCheck } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
 import { Node } from "@/app/interfaces/node";
 import { Course, Teacher } from "@/app/interfaces/course";
 import Modal from "./Modal";
 
-interface InputsProps {
+/* interface InputsProps {
   addCourse: (course: Course) => void;
+} */
+interface InputsProps {
+  addCourse: (course: Course, rootNode: Node | null) => void;
 }
 function printTree(root: Node | null) {
   if (root === null) return;
   console.log(root);
 }
 const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
-  const [showForm, setShowForm] = useState(false);
+  const [treeRoot, setTreeRoot] = useState<Node | null>(null);
   const [courseName, setCourseName] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
   const [teachers, setTeachers] = useState<Teacher[]>([
     { name: "", schedules: ["", ""] },
   ]);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -73,7 +75,7 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
       const teacherSchedules = teachers
         .map((teacher) => teacher.schedules)
         .flat();
-
+  
       if (treeRoot.left === null) {
         treeRoot.left = new Node(teacherNames[0]);
         treeRoot.left.left = new Node(teacherSchedules[0]);
@@ -83,15 +85,15 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
         while (current !== null && current.right !== null) {
           current = current.right;
         }
-
+  
         if (current !== null) {
           current.right = new Node(teacherNames[1]);
           current.right.left = new Node(teacherSchedules[2]);
           current.right.right = new Node(teacherSchedules[3]);
         }
       }
-      printTree(treeRoot);
-      addCourse({ name: courseName, teachers });
+  
+      addCourse({ name: courseName, teachers }, treeRoot);
       setCourseName("");
       setTeachers([{ name: "", schedules: ["", ""] }]);
       setErrorMessage("");
