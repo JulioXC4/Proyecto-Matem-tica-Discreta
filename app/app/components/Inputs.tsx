@@ -7,7 +7,8 @@ import { Node } from "@/app/interfaces/node";
 import { FaBook } from "react-icons/fa";
 import { Course, Teacher } from "@/app/interfaces/course";
 import Modal from "./Modal";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface InputsProps {
   addCourse: (course: Course, rootNode: Node | null) => void;
 }
@@ -62,8 +63,10 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
   const handleAddCourse = () => {
     if (courseName.trim() === "") {
       setErrorMessage("Por favor, ingrese el nombre del curso.");
+      toast.error("Por favor, ingrese el nombre del curso.");
     } else if (teachers.some((teacher) => teacher.name.trim() === "")) {
       setErrorMessage("Por favor, ingrese el nombre de todos los profesores.");
+      toast.error("Por favor, ingrese el nombre de todos los profesores.");
     } else if (
       teachers.some((teacher) =>
         teacher.schedules.some((schedule) => schedule.trim() === "")
@@ -72,6 +75,7 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
       setErrorMessage(
         "Por favor, ingrese al menos un horario para cada profesor."
       );
+      toast.error("Por favor, ingrese al menos un horario para cada profesor.");
     } else {
       const treeRoot = new Node(courseName);
       const teacherNames = teachers.map((teacher) => teacher.name);
@@ -103,6 +107,19 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        limit={1}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="colored"
+      />
       <div className="m-4">
         <button
           className="bg-green-400 w-36 h-36 rounded-lg text-white text-center flex flex-col justify-evenly items-center shadow-md transform transition-transform hover:scale-105"
@@ -173,16 +190,15 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
             onClick={handleAddTeacher}
           >
             Agregar Profesor
-            <GiTeacher className="w-8 h-8"/>
+            <GiTeacher className="w-8 h-8" />
           </button>
           <button
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2"
             onClick={handleAddCourse}
           >
             Crear Curso
-            <FaBook className="w-8 h-8"/>
+            <FaBook className="w-8 h-8" />
           </button>
-          {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
         </div>
       </Modal>
     </div>
