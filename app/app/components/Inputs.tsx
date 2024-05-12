@@ -118,6 +118,7 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
             <label className="block text-gray-700">Nombre del Curso</label>
             <input
               className="form-input mt-1 block w-full rounded-md bg-gray-200 border-gray-300"
+              placeholder="Ingresa el nombre del curso"
               type="text"
               value={courseName}
               onChange={(e) => setCourseName(e.target.value)}
@@ -139,6 +140,7 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
               }`}</label>
               <input
                 className="form-input mt-1 block w-full rounded-md bg-gray-200 border-gray-300"
+                placeholder="Ingresa el nombre de tu profesor"
                 type="text"
                 value={teacher.name}
                 onChange={(e) =>
@@ -151,6 +153,7 @@ const Inputs: React.FC<InputsProps> = ({ addCourse }) => {
                   <input
                     key={scheduleIndex}
                     className="form-input my-2 block w-full rounded-md bg-gray-200 border-gray-300"
+                    placeholder="Ej: Lunes: 10 am - 1 pm"
                     type="text"
                     value={schedule}
                     onChange={(e) =>
